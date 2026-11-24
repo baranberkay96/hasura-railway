@@ -1,5 +1,7 @@
 # Deploy and Host Hasura GraphQL Engine with Railway
 
+[![Deploy on Railway](https://railway.com/button.svg)](https://railway.com/deploy/hasura-graphql-engine-251-postgres?referralCode=20H68q)
+
 Hasura GraphQL Engine gives you an instant, real-time GraphQL API, and REST endpoints, over a PostgreSQL database, with role-based permissions, event triggers, scheduled triggers and remote schemas. This template runs Hasura v2.51 Community Edition with PostgreSQL 18 and an admin secret that is always on.
 
 ## About Hosting Hasura GraphQL Engine

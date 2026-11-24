@@ -1,0 +1,199 @@
+{
+  "name": "Hasura GraphQL Engine 2.51 (Postgres)",
+  "idSeed": "Hasura GraphQL Engine 2.51 (Postgres)",
+  "description": "Instant GraphQL and REST APIs on Postgres, console behind admin secret.",
+  "category": "Other",
+  "tags": [
+    "hasura",
+    "graphql",
+    "rest-api",
+    "postgres",
+    "api",
+    "backend",
+    "self-hosted"
+  ],
+  "image": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/hasura.svg",
+  "upstream": {
+    "repo": "hasura/graphql-engine",
+    "version": "v2.51.9",
+    "license": "Apache-2.0 (v2 Community Edition)",
+    "images": {
+      "hasura": "hasura/graphql-engine:v2.51.9@sha256:70fba12ae0967b75f33cdc5b67280a264777a46e8dfcd89859a1c4ff1fe80baf (2026-11-19)",
+      "postgres": "ghcr.io/railwayapp-templates/postgres-ssl:18.6@sha256:4fc833b43d2aaf6ecc9b18615f5533602b723a32d0e2efe2dae8ca0f7217c863"
+    },
+    "checked": "2026-11-24"
+  },
+  "services": {
+    "Hasura": {
+      "icon": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/hasura.svg",
+      "source": {
+        "repo": "baranberkay96/hasura-railway",
+        "rootDirectory": "/services/hasura"
+      },
+      "startCommand": null,
+      "preDeployCommand": null,
+      "healthcheckPath": "/healthz",
+      "healthcheckTimeout": 600,
+      "restartPolicyType": "ALWAYS",
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "publicDomain": true,
+      "targetPort": 8080,
+      "tcpProxy": null,
+      "volume": null,
+      "variables": {
+        "PORT": {
+          "defaultValue": "8080",
+          "description": "Port Hasura listens on.",
+          "required": false
+        },
+        "HASURA_GRAPHQL_ADMIN_SECRET": {
+          "defaultValue": "${{secret(40, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789\")}}",
+          "description": "Admin secret for the console and admin API (16+ characters). Send it as x-hasura-admin-secret.",
+          "required": false
+        },
+        "HASURA_GRAPHQL_METADATA_DATABASE_URL": {
+          "defaultValue": "${{Postgres.DATABASE_URL}}",
+          "description": "Postgres for Hasura metadata (hdb_catalog schema), same database as the data.",
+          "required": false
+        },
+        "HASURA_GRAPHQL_DATABASE_URL": {
+          "defaultValue": "${{Postgres.DATABASE_URL}}",
+          "description": "Default data source connected on first start (the same Postgres).",
+          "required": false
+        },
+        "HASURA_GRAPHQL_ENABLE_CONSOLE": {
+          "defaultValue": "true",
+          "description": "Serve the web console at /console (asks for the admin secret).",
+          "required": false
+        },
+        "HASURA_GRAPHQL_CONSOLE_ASSETS_DIR": {
+          "defaultValue": "/srv/console-assets",
+          "description": "Serve console assets from the image instead of a CDN.",
+          "required": false
+        },
+        "HASURA_GRAPHQL_DEV_MODE": {
+          "defaultValue": "false",
+          "description": "Detailed internal errors in responses (keep false in production).",
+          "required": false
+        },
+        "HASURA_GRAPHQL_ENABLE_TELEMETRY": {
+          "defaultValue": "false",
+          "description": "Anonymous usage telemetry.",
+          "required": false
+        },
+        "HASURA_GRAPHQL_ENABLED_LOG_TYPES": {
+          "defaultValue": "startup,http-log,webhook-log,websocket-log",
+          "description": "Log types written to the Railway logs.",
+          "required": false
+        },
+        "HASURA_GRAPHQL_SERVER_HOST": {
+          "defaultValue": "*",
+          "description": "Listen on IPv4 and IPv6.",
+          "required": false
+        },
+        "HASURA_GRAPHQL_JWT_SECRET": {
+          "defaultValue": "",
+          "description": "Optional. JWT config as JSON, e.g. {\"type\":\"HS256\",\"key\":\"...\"}, for end-user auth.",
+          "required": false
+        },
+        "HASURA_GRAPHQL_UNAUTHORIZED_ROLE": {
+          "defaultValue": "",
+          "description": "Optional. Role for requests without credentials (e.g. anonymous). Empty = rejected.",
+          "required": false
+        },
+        "HASURA_GRAPHQL_GRACEFUL_SHUTDOWN_TIMEOUT": {
+          "defaultValue": "25",
+          "description": "Seconds to finish in-flight requests on redeploy.",
+          "required": false
+        },
+        "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+          "defaultValue": "30",
+          "description": "Lets Hasura shut down cleanly.",
+          "required": false
+        }
+      }
+    },
+    "Postgres": {
+      "icon": "https://devicons.railway.app/i/postgresql.svg",
+      "source": {
+        "image": "ghcr.io/railwayapp-templates/postgres-ssl:18.6@sha256:4fc833b43d2aaf6ecc9b18615f5533602b723a32d0e2efe2dae8ca0f7217c863"
+      },
+      "startCommand": null,
+      "preDeployCommand": null,
+      "healthcheckPath": null,
+      "healthcheckTimeout": null,
+      "restartPolicyType": "ALWAYS",
+      "numReplicas": 1,
+      "cronSchedule": null,
+      "publicDomain": false,
+      "targetPort": null,
+      "tcpProxy": null,
+      "volume": {
+        "mountPath": "/var/lib/postgresql/data"
+      },
+      "variables": {
+        "PGDATA": {
+          "defaultValue": "/var/lib/postgresql/data/pgdata",
+          "description": "Location where the database will be initialized",
+          "required": false
+        },
+        "PGHOST": {
+          "defaultValue": "${{RAILWAY_PRIVATE_DOMAIN}}",
+          "description": "Railway Private Domain Name.",
+          "required": false
+        },
+        "PGPORT": {
+          "defaultValue": "5432",
+          "description": "Port to connect to Postgres.",
+          "required": false
+        },
+        "PGUSER": {
+          "defaultValue": "${{ POSTGRES_USER }}",
+          "description": "Required variable for Data panel",
+          "required": false
+        },
+        "PGDATABASE": {
+          "defaultValue": "${{POSTGRES_DB}}",
+          "description": "Required variable for the data panel.",
+          "required": false
+        },
+        "PGPASSWORD": {
+          "defaultValue": "${{POSTGRES_PASSWORD}}",
+          "description": "Required variable for Data panel",
+          "required": false
+        },
+        "POSTGRES_DB": {
+          "defaultValue": "railway",
+          "description": "Default database created when image is started.",
+          "required": false
+        },
+        "DATABASE_URL": {
+          "defaultValue": "postgresql://${{PGUSER}}:${{POSTGRES_PASSWORD}}@${{RAILWAY_PRIVATE_DOMAIN}}:5432/${{PGDATABASE}}",
+          "description": "Private connection URL used by Hasura (metadata and default source).",
+          "required": false
+        },
+        "POSTGRES_USER": {
+          "defaultValue": "postgres",
+          "description": "User to connect to Postgres DB",
+          "required": false
+        },
+        "SSL_CERT_DAYS": {
+          "defaultValue": "820",
+          "description": "SSL certificate expiry in days.",
+          "required": false
+        },
+        "POSTGRES_PASSWORD": {
+          "defaultValue": "${{ secret(32, \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\") }}",
+          "description": "Password to connect to DB",
+          "required": false
+        },
+        "RAILWAY_DEPLOYMENT_DRAINING_SECONDS": {
+          "defaultValue": "60",
+          "description": "Allow Postgres to cleanly shut down",
+          "required": false
+        }
+      }
+    }
+  }
+}

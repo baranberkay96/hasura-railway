@@ -53,7 +53,7 @@ Without an admin secret, anyone who finds a Hasura URL has full admin access. Th
 
 **Versions.** The image is pinned in `services/hasura/Dockerfile` (`HASURA_IMAGE`, tag and digest). To upgrade within v2, use a newer v2 tag and digest and redeploy; Hasura migrates its catalog on start. Back up Postgres first.
 
-**Resources.** About 0.15-0.3 GB RAM idle for Hasura and 0.05-0.1 GB for Postgres. Runs on Trial, Hobby and Pro.
+**Resources.** Measured idle: Hasura about 0.2 GB RAM, Postgres about 0.1 GB. Runs on Trial, Hobby and Pro.
 
 ### Why Deploy Hasura GraphQL Engine on Railway?
 

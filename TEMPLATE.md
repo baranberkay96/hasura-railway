@@ -32,7 +32,14 @@ Market (2026-11): "Hasura" 3 active: `:latest`, a literal admin secret and Postg
 
 ## Resources
 
-See "Measured" below. Prices: RAM $10/GB-month, vCPU $20/month, volume $0.15/GB-month. Minimum plan: Trial.
+Measured on Railway 2026-11-24 (idle after creating a table):
+
+| Service | RAM | CPU |
+|---|---|---|
+| Hasura | 0.19-0.20 GB (peak 0.40 during start) | ~0.01 vCPU |
+| Postgres | 0.10-0.12 GB | ~0 |
+
+Total ≈ 0.3 GB ≈ **$3-4/month** plus the volume. Prices: RAM $10/GB-month, vCPU $20/month, volume $0.15/GB-month. Minimum plan: Trial.
 
 ## Verification checklist
 
@@ -42,6 +49,8 @@ See "Measured" below. Prices: RAM $10/GB-month, vCPU $20/month, volume $0.15/GB-
 4. Console `/console` loads and asks for the admin secret.
 5. Redeploy: metadata and data kept.
 6. `HASURA_GRAPHQL_ADMIN_SECRET=abc` → SUCCESS with warning; `abc` rejected.
+
+Tested 2026-11-24 on Railway: all six (no secret / wrong secret → `access-denied`; `run_sql` + `pg_track_table` + insert + query 200; data and metadata kept across two redeploys; a new valid secret works after the locked boot).
 
 ## Open questions
 
